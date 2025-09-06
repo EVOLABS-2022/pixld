@@ -103,16 +103,25 @@ export default async function Home() {
               <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
                   href="/collections"
-                  className="btn-primary inline-flex items-center text-lg font-medium px-8 py-4"
+                  className="btn-primary text-lg font-medium px-8 py-4"
                 >
                   Explore Collections
                 </Link>
                 <Link
                   href="/create"
-                  className="btn-secondary inline-flex items-center text-lg font-medium px-8 py-4"
+                  className="btn-secondary text-lg font-medium px-8 py-4"
                 >
                   Create Collection
                 </Link>
+              </div>
+              
+              {/* Scroll Indicator */}
+              <div className="mt-16 flex justify-center">
+                <div className="animate-bounce">
+                  <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                    <div className="w-1 h-3 bg-white/50 rounded-full mt-2"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
