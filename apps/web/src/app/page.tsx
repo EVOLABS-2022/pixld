@@ -74,58 +74,65 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-dark">
-      <Header />
-      
-      <main>
-        {/* Hero Section */}
-        <section className="relative bg-surface border-b border-gray overflow-hidden min-h-[80vh] flex items-center">
-          {/* Hero Banner Background */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/images/hero-banner.png"
-              alt="Art Marketplace Hero"
-              fill
-              className="object-cover opacity-50"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
-          </div>
-          
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="text-center">
-              <h1 className="text-5xl font-bold text-white sm:text-7xl mb-6 drop-shadow-2xl">
-                Web3-Native Art Marketplace
-              </h1>
-              <p className="mt-6 text-xl text-gray max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
-                Create, trade, and collect NFTs with enforced royalties. 
-                Built on Abstract network with guaranteed creator compensation.
-              </p>
-              <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
-                <Link
-                  href="/collections"
-                  className="btn-primary text-lg font-medium px-8 py-4"
-                >
-                  Explore Collections
-                </Link>
-                <Link
-                  href="/create"
-                  className="btn-secondary text-lg font-medium px-8 py-4"
-                >
-                  Create Collection
-                </Link>
-              </div>
-              
-              {/* Scroll Indicator */}
-              <div className="mt-16 flex justify-center">
-                <div className="animate-bounce">
-                  <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-                    <div className="w-1 h-3 bg-white/50 rounded-full mt-2"></div>
-                  </div>
+      {/* Hero Section - Full Viewport */}
+      <section className="relative bg-surface overflow-hidden min-h-screen flex flex-col">
+        {/* Hero Banner Background */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/hero-banner.png"
+            alt="Art Marketplace Hero"
+            fill
+            className="object-cover opacity-60"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50"></div>
+        </div>
+        
+        {/* Header on top of hero */}
+        <div className="relative z-20">
+          <Header />
+        </div>
+        
+        {/* Hero Content */}
+        <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-5xl mx-auto">
+            <h1 className="text-6xl font-bold text-white sm:text-8xl mb-8 drop-shadow-2xl">
+              Web3-Native Art Marketplace
+            </h1>
+            <p className="text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed drop-shadow-lg mb-12">
+              Create, trade, and collect NFTs with enforced royalties. 
+              Built on Abstract network with guaranteed creator compensation.
+            </p>
+            
+            {/* Prominent Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+              <Link
+                href="/collections"
+                className="btn-primary text-xl font-medium px-12 py-5 text-center"
+              >
+                Explore Collections
+              </Link>
+              <Link
+                href="/create"
+                className="btn-secondary text-xl font-medium px-12 py-5 text-center"
+              >
+                Create Collection
+              </Link>
+            </div>
+            
+            {/* Scroll Indicator */}
+            <div className="flex justify-center">
+              <div className="animate-bounce">
+                <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                  <div className="w-1 h-3 bg-white/50 rounded-full mt-2"></div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
+      
+      <main>
 
         {/* About Section - Always Visible */}
         <section className="relative py-16 overflow-hidden" style={{backgroundColor: 'var(--background)'}}>

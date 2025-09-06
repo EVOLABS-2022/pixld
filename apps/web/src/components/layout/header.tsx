@@ -7,7 +7,7 @@ import { WalletButtonPlaceholder } from '@/components/wallet-button-placeholder'
 
 export function Header() {
   return (
-    <header className="border-b bg-surface border-gray">
+    <header className="border-b border-white/10 bg-black/20 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}

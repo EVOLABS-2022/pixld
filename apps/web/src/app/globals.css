@@ -163,3 +163,8 @@ body {
 .animate-bounce {
   animation: bounce 1s infinite;
 }
+
+/* Backdrop utilities */
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
