@@ -20,10 +20,10 @@ export function CollectionCard({
   return (
     <Link 
       href={`/collections/${collection.address}`}
-      className={`group block bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 ${className}`}
+      className={`group block card ${className}`}
     >
       {/* Collection Image */}
-      <div className="aspect-square relative overflow-hidden rounded-t-lg bg-gray-100">
+      <div className="aspect-square relative overflow-hidden rounded-t-lg bg-surface">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -32,8 +32,8 @@ export function CollectionCard({
             className="object-cover group-hover:scale-105 transition-transform duration-200"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <span className="text-4xl font-bold text-gray-400">
+          <div className="w-full h-full flex items-center justify-center bg-surface">
+            <span className="text-4xl font-bold text-gray">
               {collection.name.charAt(0).toUpperCase()}
             </span>
           </div>
@@ -61,27 +61,27 @@ export function CollectionCard({
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">
           <div className="min-w-0 flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 truncate">
+            <h3 className="text-lg font-semibold text-white truncate">
               {collection.name}
             </h3>
-            <p className="text-sm text-gray-500 truncate">
+            <p className="text-sm text-gray truncate">
               {collection.symbol}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center text-sm text-gray-500 mb-3">
+        <div className="flex items-center text-sm text-gray mb-3">
           <span>by</span>
-          <span className="ml-1 font-medium text-gray-700">
+          <span className="ml-1 font-medium text-white">
             {shortenAddress(collection.creator.address)}
           </span>
         </div>
 
         {showStats && (
-          <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
+          <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray">
             <div>
-              <p className="text-xs text-gray-500">Floor Price</p>
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-xs text-gray">Floor Price</p>
+              <p className="text-sm font-semibold text-white">
                 {collection.floorPrice 
                   ? formatPrice(collection.floorPrice)
                   : '—'
@@ -89,8 +89,8 @@ export function CollectionCard({
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">24h Volume</p>
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-xs text-gray">24h Volume</p>
+              <p className="text-sm font-semibold text-white">
                 {collection.volume24h !== '0'
                   ? formatPrice(collection.volume24h)
                   : '—'
@@ -98,14 +98,14 @@ export function CollectionCard({
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Items</p>
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-xs text-gray">Items</p>
+              <p className="text-sm font-semibold text-white">
                 {formatNumber(parseInt(collection.totalSupply || '0'))}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Royalty</p>
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-xs text-gray">Royalty</p>
+              <p className="text-sm font-semibold text-white">
                 {(Number(collection.royaltyBps) / 100).toFixed(1)}%
               </p>
             </div>

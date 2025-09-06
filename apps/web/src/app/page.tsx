@@ -54,31 +54,31 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <Header />
       
       <main>
         {/* Hero Section */}
-        <section className="bg-white border-b border-gray-200">
+        <section className="bg-surface border-b border-gray">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-900 sm:text-6xl">
+              <h1 className="text-4xl font-bold text-white sm:text-6xl">
                 Web3-Native Art Marketplace
               </h1>
-              <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+              <p className="mt-6 text-lg text-gray max-w-3xl mx-auto">
                 Create, trade, and collect NFTs with enforced royalties. 
                 Built on Abstract network with guaranteed creator compensation.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/collections"
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="btn-primary inline-flex items-center text-base font-medium"
                 >
                   Explore Collections
                 </Link>
                 <Link
                   href="/create"
-                  className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="btn-secondary inline-flex items-center text-base font-medium"
                 >
                   Create Collection
                 </Link>
@@ -89,16 +89,16 @@ export default async function Home() {
 
         {/* Featured Collections */}
         {featuredCollections.length > 0 && (
-          <section className="bg-white py-16">
+          <section className="bg-black py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
                   <Star className="h-6 w-6 text-yellow-500" />
-                  <h2 className="text-2xl font-bold text-gray-900">Featured Collections</h2>
+                  <h2 className="text-2xl font-bold text-white">Featured Collections</h2>
                 </div>
                 <Link 
                   href="/collections?featured=true"
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-primary hover:text-secondary font-medium"
                 >
                   View all
                 </Link>
@@ -119,16 +119,16 @@ export default async function Home() {
 
         {/* Trending Collections */}
         {trendingCollections.length > 0 && (
-          <section className="bg-gray-50 py-16">
+          <section className="bg-surface py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
                   <TrendingUp className="h-6 w-6 text-green-500" />
-                  <h2 className="text-2xl font-bold text-gray-900">Trending in 24h</h2>
+                  <h2 className="text-2xl font-bold text-white">Trending in 24h</h2>
                 </div>
                 <Link 
                   href="/trending"
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-primary hover:text-secondary font-medium"
                 >
                   View all
                 </Link>
@@ -149,16 +149,16 @@ export default async function Home() {
 
         {/* Recently Whitelisted */}
         {recentCollections.length > 0 && (
-          <section className="bg-white py-16">
+          <section className="bg-black py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
                   <Clock className="h-6 w-6 text-blue-500" />
-                  <h2 className="text-2xl font-bold text-gray-900">Recently Added</h2>
+                  <h2 className="text-2xl font-bold text-white">Recently Added</h2>
                 </div>
                 <Link 
                   href="/collections"
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-primary hover:text-secondary font-medium"
                 >
                   View all
                 </Link>
@@ -178,7 +178,7 @@ export default async function Home() {
         )}
 
         {/* Stats Section */}
-        <section className="bg-gray-900 py-16">
+        <section className="bg-surface py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white mb-8">
@@ -186,16 +186,16 @@ export default async function Home() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                  <div className="text-4xl font-bold text-blue-400">2%</div>
-                  <div className="text-gray-300">Platform Fee</div>
+                  <div className="text-4xl font-bold text-primary">2%</div>
+                  <div className="text-gray">Platform Fee</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold text-green-400">100%</div>
-                  <div className="text-gray-300">Royalty Enforcement</div>
+                  <div className="text-4xl font-bold" style="color: var(--success)">100%</div>
+                  <div className="text-gray">Royalty Enforcement</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold text-yellow-400">0%</div>
-                  <div className="text-gray-300">Failed Royalty Payments</div>
+                  <div className="text-4xl font-bold" style="color: var(--warning)">0%</div>
+                  <div className="text-gray">Failed Royalty Payments</div>
                 </div>
               </div>
             </div>
@@ -204,9 +204,9 @@ export default async function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200">
+      <footer className="bg-card border-t border-gray">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center text-gray-500">
+          <div className="text-center text-gray">
             <p>&copy; 2024 Art Marketplace. Built on Abstract Network.</p>
           </div>
         </div>

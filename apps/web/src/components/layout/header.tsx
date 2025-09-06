@@ -6,12 +6,12 @@ import { WalletButtonPlaceholder } from '@/components/wallet-button-placeholder'
 
 export function Header() {
   return (
-    <header className="border-b border-gray-200 bg-white">
+    <header className="border-b border-gray bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
+            <Link href="/" className="text-2xl font-bold text-white">
               Art Marketplace
             </Link>
           </div>
@@ -25,7 +25,7 @@ export function Header() {
               <input
                 type="text"
                 placeholder="Search collections, NFTs, or creators..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-10 pr-3 py-2 border border-gray rounded-md leading-5 bg-card placeholder-gray text-white focus:outline-none focus:placeholder-gray focus:ring-1 focus:ring-primary focus:border-primary"
               />
             </div>
           </div>
@@ -35,19 +35,19 @@ export function Header() {
             <nav className="hidden md:flex space-x-6">
               <Link 
                 href="/collections" 
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray hover:text-white font-medium"
               >
                 Collections
               </Link>
               <Link 
                 href="/trending" 
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray hover:text-white font-medium"
               >
                 Trending
               </Link>
               <Link 
                 href="/dashboard" 
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray hover:text-white font-medium"
               >
                 Dashboard
               </Link>
@@ -56,7 +56,7 @@ export function Header() {
             {/* Create Button */}
             <Link
               href="/create"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="btn-primary inline-flex items-center text-sm font-medium"
             >
               <Plus className="h-4 w-4 mr-2" />
               Create
@@ -64,7 +64,7 @@ export function Header() {
 
             {/* Profile Dropdown Placeholder */}
             <div className="relative">
-              <button className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md">
+              <button className="p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-primary rounded-md">
                 <User className="h-5 w-5" />
               </button>
             </div>
