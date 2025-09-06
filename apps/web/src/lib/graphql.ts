@@ -9,6 +9,9 @@ export const graphqlClient = new GraphQLClient(SUBGRAPH_URL, {
   },
 });
 
+// Export as subgraphClient for backward compatibility
+export const subgraphClient = graphqlClient;
+
 // Helper function for making GraphQL requests
 export async function graphqlRequest<T = any>(
   query: string,
