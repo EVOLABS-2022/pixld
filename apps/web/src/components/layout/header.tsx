@@ -1,92 +1,105 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, User } from 'lucide-react';
+import { X } from 'lucide-react';
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <header className="border-b border-white/10 bg-black/20 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-3">
-              <Image
-                src="/images/logo-yellow.png"
-                alt="Art Marketplace"
-                width={40}
-                height={40}
-                className="object-contain"
-              />
-              <span className="text-2xl font-bold text-white">Art Marketplace</span>
-            </Link>
-          </div>
+    <>
+      <header className="relative z-30">
+        <div className="absolute top-6 left-6">
+          {/* Logo Button */}
+          <button
+            onClick={toggleMenu}
+            className="flex items-center space-x-3 transition-transform hover:scale-105"
+          >
+            <Image
+              src="/images/logo-yellow.png"
+              alt="Art Marketplace"
+              width={50}
+              height={50}
+              className="object-contain drop-shadow-lg"
+            />
+          </button>
+        </div>
+      </header>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-lg mx-8">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+      {/* Pop-out Menu */}
+      {isMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            onClick={closeMenu}
+          />
+          
+          {/* Menu Panel */}
+          <div className="fixed top-0 left-0 w-80 h-full bg-surface/95 backdrop-blur-md border-r border-white/10 z-50 transform transition-transform duration-300 ease-out">
+            {/* Menu Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="flex items-center space-x-3">
+                <Image
+                  src="/images/logo-yellow.png"
+                  alt="Art Marketplace"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+                <span className="text-xl font-bold text-white">Art Marketplace</span>
               </div>
-              <input
-                type="text"
-                placeholder="Search collections, NFTs, or creators..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray rounded-md leading-5 text-white bg-card focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
-              />
-            </div>
-          </div>
-
-          {/* Navigation & Actions */}
-          <div className="flex items-center space-x-4">
-            <nav className="hidden md:flex space-x-6">
-              <Link 
-                href="/collections" 
-                className="text-gray hover:text-white font-medium"
+              <button
+                onClick={closeMenu}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
-                Collections
-              </Link>
-              <Link 
-                href="/trending" 
-                className="text-gray hover:text-white font-medium"
-              >
-                Trending
-              </Link>
-              <Link 
-                href="/create" 
-                className="text-gray hover:text-white font-medium"
-              >
-                Create
-              </Link>
-              <Link 
-                href="/dashboard" 
-                className="text-gray hover:text-white font-medium"
-              >
-                Dashboard
-              </Link>
-            </nav>
-
-            {/* Connect Wallet Button */}
-            <button
-              className="btn-primary inline-flex items-center text-sm font-medium"
-              onClick={() => {
-                // TODO: Implement wallet connection logic
-                alert('Wallet connection will be implemented here');
-              }}
-            >
-              Connect Wallet
-            </button>
-
-            {/* Profile Dropdown Placeholder */}
-            <div className="relative">
-              <button className="p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-primary rounded-md">
-                <User className="h-5 w-5" />
+                <X className="h-5 w-5 text-white" />
               </button>
             </div>
 
+            {/* Menu Items */}
+            <div className="p-6 space-y-4">
+              <Link
+                href="/collections"
+                onClick={closeMenu}
+                className="flex items-center space-x-4 p-4 hover:bg-white/5 rounded-lg transition-colors group"
+              >
+                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+                  <span className="text-xl">🎨</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Explore Collections</h3>
+                  <p className="text-sm text-gray">Discover amazing NFT collections</p>
+                </div>
+              </Link>
+
+              <Link
+                href="/create"
+                onClick={closeMenu}
+                className="flex items-center space-x-4 p-4 hover:bg-white/5 rounded-lg transition-colors group"
+              >
+                <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center group-hover:bg-secondary/30 transition-colors">
+                  <span className="text-xl">✨</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Create</h3>
+                  <p className="text-sm text-gray">Create your own NFT collection</p>
+                </div>
+              </Link>
+            </div>
           </div>
-        </div>
-      </div>
-    </header>
+        </>
+      )}
+    </>
   );
 }
