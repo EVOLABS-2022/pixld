@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { CollectionCard } from "@/components/collections/collection-card";
 import Link from "next/link";
+import Image from "next/image";
 import { TrendingUp, Star, Clock } from "lucide-react";
 
 async function getFeaturedCollections() {
@@ -54,31 +55,43 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{backgroundColor: 'var(--background)'}}>
       <Header />
       
       <main>
         {/* Hero Section */}
-        <section className="bg-surface border-b border-gray">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <section className="relative bg-surface border-b border-gray overflow-hidden">
+          {/* Hero Banner Background */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/hero-banner.png"
+              alt="Art Marketplace Hero"
+              fill
+              className="object-cover opacity-30"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/60 to-surface/90"></div>
+          </div>
+          
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-white sm:text-6xl">
+              <h1 className="text-5xl font-bold text-white sm:text-7xl mb-6 drop-shadow-2xl">
                 Web3-Native Art Marketplace
               </h1>
-              <p className="mt-6 text-lg text-gray max-w-3xl mx-auto">
+              <p className="mt-6 text-xl text-gray max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
                 Create, trade, and collect NFTs with enforced royalties. 
                 Built on Abstract network with guaranteed creator compensation.
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
                   href="/collections"
-                  className="btn-primary inline-flex items-center text-base font-medium"
+                  className="btn-primary inline-flex items-center text-lg font-medium px-8 py-4"
                 >
                   Explore Collections
                 </Link>
                 <Link
                   href="/create"
-                  className="btn-secondary inline-flex items-center text-base font-medium"
+                  className="btn-secondary inline-flex items-center text-lg font-medium px-8 py-4"
                 >
                   Create Collection
                 </Link>
@@ -89,7 +102,7 @@ export default async function Home() {
 
         {/* Featured Collections */}
         {featuredCollections.length > 0 && (
-          <section className="bg-black py-16">
+          <section className="py-16" style={{backgroundColor: 'var(--background)'}}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
@@ -149,7 +162,7 @@ export default async function Home() {
 
         {/* Recently Whitelisted */}
         {recentCollections.length > 0 && (
-          <section className="bg-black py-16">
+          <section className="py-16" style={{backgroundColor: 'var(--background)'}}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">

@@ -1,18 +1,26 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Search, User, Plus } from 'lucide-react';
 import { WalletButtonPlaceholder } from '@/components/wallet-button-placeholder';
 
 export function Header() {
   return (
-    <header className="border-b border-gray bg-surface">
+    <header className="border-b" style={{borderColor: 'var(--border)', backgroundColor: 'var(--surface)'}}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-white">
-              Art Marketplace
+            <Link href="/" className="flex items-center space-x-3">
+              <Image
+                src="/images/logo-yellow.png"
+                alt="Art Marketplace"
+                width={40}
+                height={40}
+                className="object-contain"
+              />
+              <span className="text-2xl font-bold text-white">Art Marketplace</span>
             </Link>
           </div>
 
@@ -25,7 +33,20 @@ export function Header() {
               <input
                 type="text"
                 placeholder="Search collections, NFTs, or creators..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray rounded-md leading-5 bg-card placeholder-gray text-white focus:outline-none focus:placeholder-gray focus:ring-1 focus:ring-primary focus:border-primary"
+                className="block w-full pl-10 pr-3 py-2 border rounded-md leading-5 text-white focus:outline-none focus:ring-1"
+                style={{
+                  borderColor: 'var(--border)',
+                  backgroundColor: 'var(--card)',
+                  color: 'var(--foreground)'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--primary)';
+                  e.target.style.boxShadow = '0 0 0 1px var(--primary)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'var(--border)';
+                  e.target.style.boxShadow = 'none';
+                }}
               />
             </div>
           </div>
