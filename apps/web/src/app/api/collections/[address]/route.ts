@@ -38,10 +38,11 @@ const GET_COLLECTION_QUERY = gql`
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { address: string } }
+  { params }: { params: Promise<{ address: string }> }
 ) {
   try {
-    const address = params.address.toLowerCase();
+    const resolvedParams = await params;
+    const address = resolvedParams.address.toLowerCase();
     
     // First check cache
     const cached = await prisma.collectionCache.findUnique({
