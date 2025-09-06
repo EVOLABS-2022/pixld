@@ -85,10 +85,10 @@ export default async function Home() {
               src="/images/hero-banner.png"
               alt="Art Marketplace Hero"
               fill
-              className="object-cover opacity-30"
+              className="object-cover opacity-50"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/60 to-surface/90"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
           </div>
           
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -128,16 +128,15 @@ export default async function Home() {
         </section>
 
         {/* About Section - Always Visible */}
-        <section className="relative py-16 bg-dark overflow-hidden">
+        <section className="relative py-16 overflow-hidden" style={{backgroundColor: 'var(--background)'}}>
           {/* Section Background */}
           <div className="absolute inset-0 z-0">
             <Image
               src="/images/section-background.png"
               alt="Section Background"
               fill
-              className="object-cover opacity-20"
+              className="object-cover opacity-10"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background/90"></div>
           </div>
           
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -279,12 +278,13 @@ export default async function Home() {
                     { name: "Abstract Realms", desc: "Modern abstract art pieces" }
                   ].map((collection, i) => (
                     <div key={i} className="card overflow-hidden">
-                      <div className="relative w-full h-48">
+                      <div className="relative w-full h-80 flex justify-center items-center bg-surface">
                         <Image
                           src={`/images/collection-placeholder-${i + 1}.png`}
                           alt={collection.name}
-                          fill
-                          className="object-cover"
+                          width={400}
+                          height={400}
+                          className="object-contain max-w-full max-h-full"
                         />
                       </div>
                       <div className="p-6">
