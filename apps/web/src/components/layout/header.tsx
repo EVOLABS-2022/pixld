@@ -18,23 +18,21 @@ export function Header() {
 
   return (
     <>
-      <header className="relative z-30">
-        <div className="absolute top-6 left-6">
-          {/* Logo Button */}
-          <button
-            onClick={toggleMenu}
-            className="flex items-center space-x-3 transition-transform hover:scale-105"
-          >
-            <Image
-              src="/images/logo-yellow.png"
-              alt="Art Marketplace"
-              width={50}
-              height={50}
-              className="object-contain drop-shadow-lg"
-            />
-          </button>
-        </div>
-      </header>
+      {/* Logo Button - Fixed Position */}
+      <div className="fixed top-6 left-6 z-30">
+        <button
+          onClick={toggleMenu}
+          className="flex items-center space-x-3 transition-transform hover:scale-105 bg-black/20 backdrop-blur-sm rounded-full p-3 border border-white/20"
+        >
+          <Image
+            src="/images/logo-yellow.png"
+            alt="Art Marketplace"
+            width={50}
+            height={50}
+            className="object-contain drop-shadow-lg"
+          />
+        </button>
+      </div>
 
       {/* Pop-out Menu */}
       {isMenuOpen && (
