@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, User, Plus } from 'lucide-react';
-import { WalletButtonPlaceholder } from '@/components/wallet-button-placeholder';
+import { Search, User } from 'lucide-react';
 
 export function Header() {
   return (
@@ -54,6 +53,12 @@ export function Header() {
                 Trending
               </Link>
               <Link 
+                href="/create" 
+                className="text-gray hover:text-white font-medium"
+              >
+                Create
+              </Link>
+              <Link 
                 href="/dashboard" 
                 className="text-gray hover:text-white font-medium"
               >
@@ -61,14 +66,16 @@ export function Header() {
               </Link>
             </nav>
 
-            {/* Create Button */}
-            <Link
-              href="/create"
+            {/* Connect Wallet Button */}
+            <button
               className="btn-primary inline-flex items-center text-sm font-medium"
+              onClick={() => {
+                // TODO: Implement wallet connection logic
+                alert('Wallet connection will be implemented here');
+              }}
             >
-              <Plus className="h-4 w-4 mr-2" />
-              Create
-            </Link>
+              Connect Wallet
+            </button>
 
             {/* Profile Dropdown Placeholder */}
             <div className="relative">
@@ -77,8 +84,6 @@ export function Header() {
               </button>
             </div>
 
-            {/* Wallet Connection */}
-            <WalletButtonPlaceholder />
           </div>
         </div>
       </div>
