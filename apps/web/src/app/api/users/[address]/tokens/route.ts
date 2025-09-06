@@ -1,0 +1,150 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { subgraphClient } from '@/lib/graphql';
+import { gql } from 'graphql-request';
+
+const GET_USER_TOKENS_QUERY = gql`
+  query GetUserTokens(
+    $owner: String!,
+    $first: Int!,
+    $skip: Int!,
+    $where: Token_filter
+  ) {
+    tokens(
+      where: $where,
+      first: $first,
+      skip: $skip,
+      orderBy: createdAt,
+      orderDirection: desc
+    ) {
+      id
+      tokenId
+      name
+      description
+      imageUrl
+      collection {
+        id
+        address
+        name
+        symbol
+        standard
+      }
+      owner {
+        id
+        address
+        displayName
+      }
+      listing {
+        id
+        price
+        currency
+        currencySymbol
+        maker
+        start
+        end
+      }
+      lastSale {
+        price
+        timestamp
+        currency
+      }
+      createdAt
+    }
+  }
+`;
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { address: string } }
+) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const address = params.address.toLowerCase();
+    
+    // Parse pagination
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100);
+    const skip = (page - 1) * limit;
+
+    // Parse filters
+    const collection = searchParams.get('collection');
+    const listed = searchParams.get('listed'); // 'true' | 'false'
+    
+    // Build where clause
+    const where: any = {
+      owner: address,
+    };
+
+    if (collection) {
+      where.collection = collection;
+    }
+
+    if (listed === 'true') {
+      where.listing_ = { price_gt: '0' };
+    } else if (listed === 'false') {
+      where.listing = null;
+    }
+
+    const data = await subgraphClient.request(GET_USER_TOKENS_QUERY, {
+      owner: address,
+      first: limit + 1, // Fetch one extra to check if there are more
+      skip,
+      where,
+    });
+
+    const tokens = data.tokens || [];
+    const hasMore = tokens.length > limit;
+    const tokensToReturn = hasMore ? tokens.slice(0, limit) : tokens;
+
+    // Format tokens
+    const formattedTokens = tokensToReturn.map((token: any) => ({
+      id: token.id,
+      tokenId: token.tokenId,
+      name: token.name,
+      description: token.description,
+      imageUrl: token.imageUrl,
+      collection: {
+        id: token.collection.id,
+        address: token.collection.address,
+        name: token.collection.name,
+        symbol: token.collection.symbol,
+        standard: token.collection.standard,
+      },
+      owner: {
+        id: token.owner.id,
+        address: token.owner.address,
+        displayName: token.owner.displayName,
+      },
+      listing: token.listing ? {
+        id: token.listing.id,
+        price: (parseFloat(token.listing.price) / 1e18).toString(),
+        currency: token.listing.currency,
+        currencySymbol: token.listing.currencySymbol,
+        maker: token.listing.maker,
+        start: token.listing.start ? parseInt(token.listing.start) : null,
+        end: token.listing.end ? parseInt(token.listing.end) : null,
+      } : null,
+      lastSale: token.lastSale ? {
+        price: (parseFloat(token.lastSale.price) / 1e18).toString(),
+        timestamp: parseInt(token.lastSale.timestamp),
+        currency: token.lastSale.currency,
+      } : null,
+      createdAt: parseInt(token.createdAt),
+    }));
+
+    return NextResponse.json({
+      tokens: formattedTokens,
+      pagination: {
+        page,
+        limit,
+        hasMore,
+        total: tokens.length >= limit ? undefined : skip + tokens.length,
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching user tokens:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch tokens' },
+      { status: 500 }
+    );
+  }
+}

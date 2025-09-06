@@ -1,0 +1,17 @@
+{
+  "name": "subgraph",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --studio art-marketplace",
+    "create-local": "graph create --node http://localhost:8020/ art-marketplace",
+    "remove-local": "graph remove --node http://localhost:8020/ art-marketplace",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 art-marketplace"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.69.0",
+    "@graphprotocol/graph-ts": "^0.35.1"
+  }
+}

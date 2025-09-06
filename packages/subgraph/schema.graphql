@@ -1,0 +1,149 @@
+type Collection @entity {
+  id: Bytes!
+  address: Bytes!
+  name: String!
+  symbol: String!
+  standard: CollectionStandard!
+  creator: User!
+  royaltyReceiver: Bytes!
+  royaltyBps: BigInt!
+  isWhitelisted: Boolean!
+  isFeatured: Boolean!
+  deployedViaFactory: Boolean!
+  totalSupply: BigInt!
+  floorPrice: BigInt
+  volume24h: BigInt!
+  volumeTotal: BigInt!
+  createdAt: BigInt!
+  updatedAt: BigInt!
+  contractURI: String
+  isPaused: Boolean!
+  
+  # Relations
+  tokens: [Token!]! @derivedFrom(field: "collection")
+  sales: [Sale!]! @derivedFrom(field: "collection")
+}
+
+enum CollectionStandard {
+  ERC721C
+  ERC1155
+}
+
+type Token @entity {
+  id: String! # collection-tokenId
+  collection: Collection!
+  tokenId: BigInt!
+  owner: User!
+  tokenURI: String
+  isFrozen: Boolean!
+  
+  # ERC1155 specific
+  totalSupply: BigInt
+  maxSupply: BigInt
+  openEditionStart: BigInt
+  openEditionEnd: BigInt
+  
+  createdAt: BigInt!
+  updatedAt: BigInt!
+  
+  # Relations
+  transfers: [Transfer!]! @derivedFrom(field: "token")
+  sales: [Sale!]! @derivedFrom(field: "token")
+}
+
+type User @entity {
+  id: Bytes! # address
+  address: Bytes!
+  createdCollections: [Collection!]! @derivedFrom(field: "creator")
+  ownedTokens: [Token!]! @derivedFrom(field: "owner")
+  sales: [Sale!]! @derivedFrom(field: "seller")
+  purchases: [Sale!]! @derivedFrom(field: "buyer")
+  transfersFrom: [Transfer!]! @derivedFrom(field: "from")
+  transfersTo: [Transfer!]! @derivedFrom(field: "to")
+  createdAt: BigInt!
+  updatedAt: BigInt!
+}
+
+type Transfer @entity {
+  id: String! # txHash-logIndex
+  collection: Collection!
+  token: Token!
+  from: User!
+  to: User!
+  quantity: BigInt! # 1 for ERC721, variable for ERC1155
+  txHash: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  logIndex: BigInt!
+}
+
+type Sale @entity {
+  id: String! # txHash-logIndex
+  collection: Collection!
+  token: Token!
+  seller: User!
+  buyer: User!
+  price: BigInt!
+  currency: Bytes! # address(0) for ETH
+  platformFee: BigInt!
+  royaltyFee: BigInt!
+  quantity: BigInt!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  logIndex: BigInt!
+}
+
+type Order @entity {
+  id: Bytes! # orderHash
+  collection: Collection!
+  token: Token!
+  maker: User!
+  price: BigInt!
+  currency: Bytes!
+  quantity: BigInt!
+  standard: CollectionStandard!
+  strategy: OrderStrategy!
+  startTime: BigInt!
+  endTime: BigInt!
+  salt: BigInt!
+  nonce: BigInt!
+  isActive: Boolean!
+  isFilled: Boolean!
+  isCancelled: Boolean!
+  createdAt: BigInt!
+  updatedAt: BigInt!
+}
+
+enum OrderStrategy {
+  FIXED_PRICE
+}
+
+# Global stats entity
+type GlobalStats @entity {
+  id: String! # "global"
+  totalCollections: BigInt!
+  totalTokens: BigInt!
+  totalVolume: BigInt!
+  totalSales: BigInt!
+  updatedAt: BigInt!
+}
+
+# Daily stats for trending calculation
+type DailyCollectionStats @entity {
+  id: String! # collection-YYYY-MM-DD
+  collection: Collection!
+  date: String! # YYYY-MM-DD
+  volume: BigInt!
+  sales: BigInt!
+  avgPrice: BigInt!
+}
+
+type WeeklyCollectionStats @entity {
+  id: String! # collection-YYYY-WW
+  collection: Collection!
+  weekStart: String! # YYYY-MM-DD of Monday
+  volume: BigInt!
+  sales: BigInt!
+  avgPrice: BigInt!
+}

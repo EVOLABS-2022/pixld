@@ -1,0 +1,176 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  address   String   @unique
+  nonce     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  ownedTokens NFT[]
+  listings    Listing[]
+  purchases   Sale[] @relation("Buyer")
+  sales       Sale[] @relation("Seller")
+
+  @@map("users")
+}
+
+model Collection {
+  id                String   @id @default(cuid())
+  contractAddress   String   @unique
+  name              String
+  symbol            String
+  description       String?
+  standard          String   // ERC721C or ERC1155
+  creatorAddress    String
+  royaltyBps        Int      // Basis points (e.g., 250 = 2.5%)
+  isWhitelisted     Boolean  @default(false)
+  isFeatured        Boolean  @default(false)
+  deployedViaFactory Boolean @default(false)
+  totalSupply       Int      @default(0)
+  floorPrice        String?  // In wei as string
+  volume24h         String   @default("0") // In wei as string
+  volumeTotal       String   @default("0") // In wei as string
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  nfts     NFT[]
+  listings Listing[]
+  sales    Sale[]
+
+  @@map("collections")
+}
+
+model NFT {
+  id           String  @id @default(cuid())
+  tokenId      String
+  collectionId String
+  ownerAddress String
+  tokenURI     String?
+  metadata     Json?
+  ipfsCid      String?
+  isListed     Boolean @default(false)
+
+  // Relations
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  owner      User       @relation(fields: [ownerAddress], references: [address])
+  listing    Listing?
+  sales      Sale[]
+
+  @@unique([tokenId, collectionId])
+  @@map("nfts")
+}
+
+model Listing {
+  id           String   @id @default(cuid())
+  nftId        String   @unique
+  collectionId String
+  sellerAddress String
+  price        String   // In wei as string
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  nft        NFT        @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  collection Collection @relation(fields: [collectionId], references: [id])
+  seller     User       @relation(fields: [sellerAddress], references: [address])
+
+  @@map("listings")
+}
+
+model Sale {
+  id            String   @id @default(cuid())
+  nftId         String
+  collectionId  String
+  sellerAddress String
+  buyerAddress  String
+  price         String   // In wei as string
+  platformFee   String   // In wei as string
+  royaltyFee    String   // In wei as string
+  txHash        String   @unique
+  blockNumber   Int
+  createdAt     DateTime @default(now())
+
+  // Relations
+  nft        NFT        @relation(fields: [nftId], references: [id])
+  collection Collection @relation(fields: [collectionId], references: [id])
+  seller     User       @relation("Seller", fields: [sellerAddress], references: [address])
+  buyer      User       @relation("Buyer", fields: [buyerAddress], references: [address])
+
+  @@map("sales")
+}
+
+model OperatorAllowlist {
+  id          String   @id @default(cuid())
+  operatorAddress String
+  isAllowed   Boolean  @default(true)
+  collectionId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([operatorAddress, collectionId])
+  @@map("operator_allowlists")
+}
+
+// Caching tables for performance
+model CollectionCache {
+  id          String   @id @default(cuid())
+  contractAddress String @unique
+  floorPrice    String?  // In wei as string
+  volume24h     String   @default("0") // In wei as string
+  volume7d      String   @default("0") // In wei as string
+  volumeTotal   String   @default("0") // In wei as string
+  sales24h      Int      @default(0)
+  sales7d       Int      @default(0)
+  salesTotal    Int      @default(0)
+  holders       Int      @default(0)
+  listedCount   Int      @default(0)
+  lastSalePrice String?  // In wei as string
+  lastSaleTime  DateTime?
+  trendingScore Float    @default(0) // Algorithm-based trending score
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+
+  @@map("collection_cache")
+}
+
+model TrendingCollections {
+  id          String   @id @default(cuid())
+  contractAddress String
+  rank        Int
+  period      String   // "24h", "7d", "30d"
+  volume      String   // Volume for the period
+  percentChange Float  // Percentage change from previous period
+  calculatedAt DateTime @default(now())
+
+  @@unique([contractAddress, period])
+  @@index([period, rank])
+  @@map("trending_collections")
+}
+
+model GlobalMetrics {
+  id          String   @id @default(cuid())
+  date        DateTime @unique @default(now())
+  totalVolume String   @default("0") // Cumulative volume in wei
+  dailyVolume String   @default("0") // Daily volume in wei
+  totalSales  Int      @default(0)  // Cumulative sales count
+  dailySales  Int      @default(0)  // Daily sales count
+  activeUsers Int      @default(0)  // Daily active users
+  newUsers    Int      @default(0)  // New users today
+  avgSalePrice String  @default("0") // Average sale price in wei
+
+  @@map("global_metrics")
+}

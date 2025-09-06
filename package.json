@@ -1,0 +1,22 @@
+{
+  "name": "art-marketplace",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md}\"",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.10.12",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
+    "turbo": "^1.10.12"
+  },
+  "packageManager": "npm@8.19.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
