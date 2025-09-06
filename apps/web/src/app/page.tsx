@@ -78,7 +78,7 @@ export default async function Home() {
       
       <main>
         {/* Hero Section */}
-        <section className="relative bg-surface border-b border-gray overflow-hidden">
+        <section className="relative bg-surface border-b border-gray overflow-hidden min-h-[80vh] flex items-center">
           {/* Hero Banner Background */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -91,7 +91,7 @@ export default async function Home() {
             <div className="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/60 to-surface/90"></div>
           </div>
           
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="text-center">
               <h1 className="text-5xl font-bold text-white sm:text-7xl mb-6 drop-shadow-2xl">
                 Web3-Native Art Marketplace
@@ -122,6 +122,44 @@ export default async function Home() {
                     <div className="w-1 h-3 bg-white/50 rounded-full mt-2"></div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* About Section - Always Visible */}
+        <section className="py-16 bg-dark">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">Why Choose Our Marketplace?</h2>
+              <p className="text-xl text-gray max-w-3xl mx-auto">
+                Experience the future of NFT trading with guaranteed royalty enforcement and creator protection.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">⚡</span>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Fast & Secure</h3>
+                <p className="text-gray">Built on Abstract Network for lightning-fast transactions with low fees.</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">💎</span>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Royalty Guaranteed</h3>
+                <p className="text-gray">100% royalty enforcement ensures creators get paid on every resale.</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🎨</span>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Creator Focused</h3>
+                <p className="text-gray">Tools and features designed to empower artists and creators.</p>
               </div>
             </div>
           </div>
@@ -212,6 +250,28 @@ export default async function Home() {
                     showStats={true}
                   />
                 ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Collections Placeholder - When no collections available */}
+        {featuredCollections.length === 0 && trendingCollections.length === 0 && recentCollections.length === 0 && (
+          <section className="py-16 bg-surface">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-white mb-8">Collections Coming Soon</h2>
+                <div className="grid md:grid-cols-3 gap-8">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="card p-6">
+                      <div className="w-full h-48 bg-card rounded-lg mb-4 flex items-center justify-center">
+                        <span className="text-4xl">🎨</span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Featured Collection #{i}</h3>
+                      <p className="text-gray text-sm">Discover amazing NFTs from talented creators.</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
