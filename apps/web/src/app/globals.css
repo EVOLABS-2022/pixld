@@ -54,11 +54,17 @@ body {
 .text-gray { color: var(--text-secondary); }
 .text-primary { color: var(--primary); }
 .text-secondary { color: var(--secondary); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
 
 .border-gray { border-color: var(--border); }
 .hover\:bg-surface:hover { background-color: var(--surface); }
 .hover\:bg-card:hover { background-color: var(--card); }
 .transition { transition: all 0.15s ease-in-out; }
+
+/* Focus states for inputs */
+.focus\:ring-primary:focus { box-shadow: 0 0 0 1px var(--primary); }
+.focus\:border-primary:focus { border-color: var(--primary); }
 
 /* Enhanced button styles */
 .btn-primary {

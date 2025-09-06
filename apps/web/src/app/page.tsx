@@ -221,11 +221,11 @@ export default async function Home() {
                   <div className="text-gray">Platform Fee</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold" style="color: var(--success)">100%</div>
+                  <div className="text-4xl font-bold text-success">100%</div>
                   <div className="text-gray">Royalty Enforcement</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold" style="color: var(--warning)">0%</div>
+                  <div className="text-4xl font-bold text-warning">0%</div>
                   <div className="text-gray">Failed Royalty Payments</div>
                 </div>
               </div>

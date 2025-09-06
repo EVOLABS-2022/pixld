@@ -7,7 +7,7 @@ import { WalletButtonPlaceholder } from '@/components/wallet-button-placeholder'
 
 export function Header() {
   return (
-    <header className="border-b bg-surface" style={{borderColor: 'var(--border)'}}>
+    <header className="border-b bg-surface border-gray">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -33,20 +33,7 @@ export function Header() {
               <input
                 type="text"
                 placeholder="Search collections, NFTs, or creators..."
-                className="block w-full pl-10 pr-3 py-2 border rounded-md leading-5 text-white focus:outline-none focus:ring-1"
-                style={{
-                  borderColor: 'var(--border)',
-                  backgroundColor: 'var(--card)',
-                  color: 'var(--foreground)'
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = 'var(--primary)';
-                  e.target.style.boxShadow = '0 0 0 1px var(--primary)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = 'var(--border)';
-                  e.target.style.boxShadow = 'none';
-                }}
+                className="block w-full pl-10 pr-3 py-2 border border-gray rounded-md leading-5 text-white bg-card focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
               />
             </div>
           </div>
