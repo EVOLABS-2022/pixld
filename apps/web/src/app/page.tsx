@@ -128,8 +128,19 @@ export default async function Home() {
         </section>
 
         {/* About Section - Always Visible */}
-        <section className="py-16 bg-dark">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative py-16 bg-dark overflow-hidden">
+          {/* Section Background */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/section-background.png"
+              alt="Section Background"
+              fill
+              className="object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background/90"></div>
+          </div>
+          
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">Why Choose Our Marketplace?</h2>
               <p className="text-xl text-gray max-w-3xl mx-auto">
@@ -260,15 +271,30 @@ export default async function Home() {
           <section className="py-16 bg-surface">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
-                <h2 className="text-3xl font-bold text-white mb-8">Collections Coming Soon</h2>
+                <h2 className="text-3xl font-bold text-white mb-8">Featured Collections</h2>
                 <div className="grid md:grid-cols-3 gap-8">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="card p-6">
-                      <div className="w-full h-48 bg-card rounded-lg mb-4 flex items-center justify-center">
-                        <span className="text-4xl">🎨</span>
+                  {[
+                    { name: "Digital Dreams", desc: "Ethereal digital art collection" },
+                    { name: "Neon Futures", desc: "Cyberpunk-inspired NFT series" },
+                    { name: "Abstract Realms", desc: "Modern abstract art pieces" }
+                  ].map((collection, i) => (
+                    <div key={i} className="card overflow-hidden">
+                      <div className="relative w-full h-48">
+                        <Image
+                          src={`/images/collection-placeholder-${i + 1}.png`}
+                          alt={collection.name}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Featured Collection #{i}</h3>
-                      <p className="text-gray text-sm">Discover amazing NFTs from talented creators.</p>
+                      <div className="p-6">
+                        <h3 className="text-lg font-semibold text-white mb-2">{collection.name}</h3>
+                        <p className="text-gray text-sm">{collection.desc}</p>
+                        <div className="mt-4 flex justify-between items-center text-sm">
+                          <span className="text-primary">Floor: 0.05 ETH</span>
+                          <span className="text-gray">24h: +12%</span>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

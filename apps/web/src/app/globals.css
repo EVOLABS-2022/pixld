@@ -56,6 +56,11 @@ body {
 .bg-primary:hover { background-color: var(--primary-hover); }
 .bg-secondary { background-color: var(--secondary); }
 
+/* Gradient utilities */
+.from-background\/90 { --tw-gradient-from: rgba(15, 15, 15, 0.9); }
+.via-background\/80 { --tw-gradient-via: rgba(15, 15, 15, 0.8); }
+.to-background\/90 { --tw-gradient-to: rgba(15, 15, 15, 0.9); }
+
 .text-white { color: var(--foreground); }
 .text-gray { color: var(--text-secondary); }
 .text-primary { color: var(--primary); }
