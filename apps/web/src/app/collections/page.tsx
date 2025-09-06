@@ -3,16 +3,24 @@ import { CollectionCard } from "@/components/collections/collection-card";
 import { Filter, SortAsc } from "lucide-react";
 
 interface CollectionsPageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     featured?: string;
     standard?: string;
     orderBy?: string;
     orderDirection?: string;
-  };
+  }>;
 }
 
 async function getCollections(searchParams: any) {
+  // Skip API calls during build
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+    return {
+      collections: [],
+      pagination: {}
+    };
+  }
+  
   try {
     const params = new URLSearchParams();
     
@@ -24,7 +32,8 @@ async function getCollections(searchParams: any) {
     
     params.set('limit', '20'); // Show more on dedicated collections page
     
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/collections?${params.toString()}`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${apiUrl}/api/collections?${params.toString()}`, {
       next: { revalidate: 120 } // Cache for 2 minutes
     });
     
@@ -45,10 +54,11 @@ async function getCollections(searchParams: any) {
 }
 
 export default async function CollectionsPage({ searchParams }: CollectionsPageProps) {
-  const { collections, pagination } = await getCollections(searchParams);
+  const resolvedSearchParams = await searchParams;
+  const { collections, pagination } = await getCollections(resolvedSearchParams);
   
-  const isFiltered = searchParams.featured || searchParams.standard;
-  const currentPage = parseInt(searchParams.page || '1');
+  const isFiltered = resolvedSearchParams.featured || resolvedSearchParams.standard;
+  const currentPage = parseInt(resolvedSearchParams.page || '1');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -60,8 +70,8 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
               {isFiltered ? (
-                searchParams.featured ? 'Featured Collections' :
-                searchParams.standard ? `${searchParams.standard} Collections` :
+                resolvedSearchParams.featured ? 'Featured Collections' :
+                resolvedSearchParams.standard ? `${resolvedSearchParams.standard} Collections` :
                 'Collections'
               ) : 'All Collections'}
             </h1>
@@ -76,7 +86,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
               <Filter className="h-4 w-4 text-gray-500" />
               <select 
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                defaultValue={searchParams.standard || ''}
+                defaultValue={resolvedSearchParams.standard || ''}
               >
                 <option value="">All Standards</option>
                 <option value="ERC721C">ERC721C</option>
@@ -88,7 +98,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
               <SortAsc className="h-4 w-4 text-gray-500" />
               <select 
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                defaultValue={`${searchParams.orderBy || 'createdAt'}_${searchParams.orderDirection || 'desc'}`}
+                defaultValue={`${resolvedSearchParams.orderBy || 'createdAt'}_${resolvedSearchParams.orderDirection || 'desc'}`}
               >
                 <option value="createdAt_desc">Newest First</option>
                 <option value="createdAt_asc">Oldest First</option>
@@ -121,7 +131,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
                   {currentPage > 1 && (
                     <a
                       href={`/collections?${new URLSearchParams({
-                        ...searchParams,
+                        ...resolvedSearchParams,
                         page: (currentPage - 1).toString()
                       }).toString()}`}
                       className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
@@ -137,7 +147,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
                   {pagination.hasMore && (
                     <a
                       href={`/collections?${new URLSearchParams({
-                        ...searchParams,
+                        ...resolvedSearchParams,
                         page: (currentPage + 1).toString()
                       }).toString()}`}
                       className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"

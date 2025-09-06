@@ -5,8 +5,14 @@ import Image from "next/image";
 import { TrendingUp, Star, Clock } from "lucide-react";
 
 async function getFeaturedCollections() {
+  // Skip API calls during build
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+    return [];
+  }
+  
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/collections?featured=true&limit=6`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${apiUrl}/api/collections?featured=true&limit=6`, {
       next: { revalidate: 300 } // Cache for 5 minutes
     });
     if (!res.ok) throw new Error('Failed to fetch');
@@ -19,8 +25,14 @@ async function getFeaturedCollections() {
 }
 
 async function getTrendingCollections() {
+  // Skip API calls during build
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+    return [];
+  }
+  
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/collections/trending?period=24h&limit=8`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${apiUrl}/api/collections/trending?period=24h&limit=8`, {
       next: { revalidate: 300 } // Cache for 5 minutes
     });
     if (!res.ok) throw new Error('Failed to fetch');
@@ -33,8 +45,14 @@ async function getTrendingCollections() {
 }
 
 async function getRecentCollections() {
+  // Skip API calls during build
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+    return [];
+  }
+  
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/collections?limit=6`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${apiUrl}/api/collections?limit=6`, {
       next: { revalidate: 300 }
     });
     if (!res.ok) throw new Error('Failed to fetch');
@@ -55,7 +73,7 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="min-h-screen" style={{backgroundColor: 'var(--background)'}}>
+    <div className="min-h-screen bg-dark">
       <Header />
       
       <main>
@@ -102,7 +120,7 @@ export default async function Home() {
 
         {/* Featured Collections */}
         {featuredCollections.length > 0 && (
-          <section className="py-16" style={{backgroundColor: 'var(--background)'}}>
+          <section className="py-16 bg-dark">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
@@ -162,7 +180,7 @@ export default async function Home() {
 
         {/* Recently Whitelisted */}
         {recentCollections.length > 0 && (
-          <section className="py-16" style={{backgroundColor: 'var(--background)'}}>
+          <section className="py-16 bg-dark">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
